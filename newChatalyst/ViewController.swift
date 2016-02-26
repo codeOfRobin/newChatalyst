@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import SafariServices
-
+import SDWebImage
 class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     let data = 1...5
     var userMessages :[String] = []
@@ -41,6 +41,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
                         firstMessage.messageString = json["SummarySentence"].string!
                         firstMessage.link = NSURL(string: json["URL"].string!)!
                         firstMessage.moreAvailable = json["MoreSummaryAvailable"].bool!
+                        firstMessage.imageLink = json["Image"].string
                         self.botMessages.append(firstMessage)
                         dispatch_async(dispatch_get_main_queue()) { () -> Void in
                             self.tableView.beginUpdates()
@@ -82,6 +83,15 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             cell.messageLabel.superview?.backgroundColor = UIColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1)
             cell.messageLabel.superview?.layer.cornerRadius = 12
             cell.messageLabel.text = botMessages[indexPath.row/2].messageString
+            if let imgURL = botMessages[indexPath.row/2].imageLink
+            {
+                cell.messageImage.sd_setImageWithURL(NSURL(string: imgURL), placeholderImage: UIImage(named: "loading"))
+            }
+            else
+            {
+                cell.messageImage.frame.size = CGSizeZero
+                cell.layoutIfNeeded()
+            }
             cell.messageLabel.numberOfLines = 0
             cell.messageLabel.sizeToFit()
             return cell

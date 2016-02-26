@@ -14,4 +14,5 @@ class Message: NSObject
     var link = NSURL()
     var Title = String()
     var moreAvailable = false
+    var imageLink:String?
 }

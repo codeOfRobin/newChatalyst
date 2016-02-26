@@ -13,6 +13,7 @@ class leftCell: UITableViewCell {
 
     @IBOutlet weak var messageLabel: UILabel!
 
+    @IBOutlet weak var messageImage: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
